@@ -1,0 +1,32 @@
+---
+– name: MAC SSH Vulnerability FIX
+  hosts: all
+  tasks:
+
+    – name: Backing up /etc/ssh/sshd_config
+      shell: cp -prf /etc/ssh/sshd_config /etc/ssh/sshd_config.02-02-18
+      become: true
+      become_method: sudo
+
+    – name: Updating MACs directive in /etc/ssh/sshd_config file
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: ‘^MACs’
+        line: ‘MACs hmac-sha1,umac-64@openssh.com,hmac-ripemd160,hmac-sha2-256,hmac-sha2-512,hmac-ripemd160@openssh.com’
+      become: true
+      become_method: sudo
+
+    – name: Updating ciphers directive in /etc/ssh/sshd_config file
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: ‘^Ciphers’
+        line: ‘Ciphers aes128-ctr,aes192-ctr,aes256-ctr’
+      become: true
+      become_method: sudo
+
+    – name: Restarting sshd service
+      service: 
+        name: sshd 
+        state: restarted
+      become: true
+      become_method: sudo
