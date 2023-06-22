@@ -1,8 +1,7 @@
 ---
 – name: MAC SSH Vulnerability FIX
-  hosts: all
+  hosts: servera
   tasks:
-
     – name: Backing up /etc/ssh/sshd_config
       shell: cp -prf /etc/ssh/sshd_config /etc/ssh/sshd_config.02-02-18
       become: true
