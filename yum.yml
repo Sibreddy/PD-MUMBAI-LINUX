@@ -4,5 +4,5 @@
   tasks:
     - name: install httpd pkg
       yum:
-        nam: httpd
+        nana: httpd
         state: latest
